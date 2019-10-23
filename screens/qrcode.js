@@ -88,7 +88,7 @@ export default class BarcodeScanner extends React.Component {
            type='ionicon'    
            color='#666' 
            onPress={() =>this.props.navigation.goBack()} />
-           <Text style={{fontSize:20,marnTop:5,color:'#fff',fontFamily:'quicksand-bold'}}>Scan Now</Text>
+           <Text style={{fontSize:20,marginTop:11,color:'#fff',fontFamily:'quicksand-bold'}}>Scan Now</Text>
            <Text style={{color:'rgba(0,0,0,0)'}}>.</Text>
       </View>
 
