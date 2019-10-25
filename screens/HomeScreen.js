@@ -58,9 +58,10 @@ export default class  HomeScreen extends React.Component {
                    color='#555' 
                    onPress={() => this.setState({ isVisible: false })} />
              </View>
+
              
           </View>
-         
+          
      </Overlay>
      )
    }
@@ -72,13 +73,47 @@ export default class  HomeScreen extends React.Component {
   return(
     <WebView
      source={{uri: 'https://findithomes.com/mobile-app-home-page/'}}            
-     style={{flex:1,}} 
+     style={{flex:10,}} 
+     ref={(ref)=>{this.webview = ref}}
      injectedJavaScript={jsCode}  
-     onLoadStart={()=>this.setState({loading:true})}
+     onNavigationStateChange={(event)=>{
+      let url = event.url
+      let home = 'https://findithomes.com/mobile-app-home-page/'; 
+      if(url !== home){
+        this.webview.stopLoading()
+        ///details page
+        if(url.includes('https://findithomes.com/listing/')){
+          this.props.navigation.navigate('LinksScreen', {  
+            title: 'Details',
+            link: url,  
+          });
+        }
+
+  
+      }
+    }}
+     
      onLoadEnd={()=>this.setState({loading:false})}
      scalesPageToFit={true}
    />
   )
+  }
+
+  _onLoader_navigation=(event)=>{
+    let url = event.url
+    let home = 'https://findithomes.com/mobile-app-home-page/';
+    let detail = 'https://findithomes.com/'
+    if(url !== home){
+      this.webview.stopLoading()
+      ///details page
+      if(url.includes('https://findithomes.com')){
+        this.props.navigation.navigate('LinksScreen', {  
+          title: 'Details',
+          link: url,  
+        });
+      }
+
+    }
   }
 
   ////header
@@ -130,6 +165,8 @@ export default class  HomeScreen extends React.Component {
     return(
       <View style={{flex:1}}>
         {this._header()}
+        {this._webview()} 
+        
         {this._overlay_search()} 
       </View>
     )
@@ -147,10 +184,10 @@ export default class  HomeScreen extends React.Component {
  
 render() {
   return (
-    <ScrollView style={{ flex: 1 }}>  
+    <View style={{ flex: 1 }}>  
       {this._Home_View()}
-      
-    </ScrollView>                                                                                                                                   
+      {this.state.loading? this._loadingScreen() : null}
+    </View>                                                                                                                                   
   );
  }
 }
@@ -165,7 +202,7 @@ const styles = StyleSheet.create({
   loader:{
     flex:1, 
     position:'absolute',
-    top:0,
+    top:60,
     bottom:0,
     left:0,
     right:0,

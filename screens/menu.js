@@ -61,6 +61,7 @@ render() {
 
         <ListItem
            title="Dashboard"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'apps' }}
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -74,6 +75,7 @@ render() {
 
         <ListItem
            title="Reservations"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'date-range' }} 
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -87,6 +89,7 @@ render() {
 
         <ListItem
            title="Favorites"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'loyalty' ,color:'#9c0043'}}
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -100,6 +103,7 @@ render() {
         
         <ListItem
            title="Security"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'lock-open' ,color:'#759c00'}} 
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -113,6 +117,7 @@ render() {
 
         <ListItem
           title="Invoice"
+          titleStyle={{fontFamily:'quicksand-bold'}}
           leftIcon={{ name: 'assignment' ,color:'#eb6600'}}   
           onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -126,6 +131,7 @@ render() {
 
        <ListItem
           title="Help"
+          titleStyle={{fontFamily:'quicksand-bold'}}
           leftIcon={{ name: 'help' ,color:'#6600bf'}} 
           onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -140,6 +146,7 @@ render() {
 
        <ListItem
            title="About Us"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'info', color:'#bf007c' }} 
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -153,6 +160,7 @@ render() {
 
        <ListItem
            title="How it Works"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'description', color:'#00bf8f' }} 
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -166,6 +174,7 @@ render() {
 
         <ListItem
            title="Become a Landlord"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'supervisor-account', color:'#000' }} 
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -179,6 +188,7 @@ render() {
 
         <ListItem
            title="Privacy Policy"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'subject', color:'#0079bf' }}
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -192,6 +202,7 @@ render() {
 
         <ListItem
            title="Terms and Conditions"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'subject', color:'#1000bf' }}
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {
@@ -205,6 +216,7 @@ render() {
         <Divider style={{marginTop:40,}}/> 
         <ListItem
            title="LogOut"
+           titleStyle={{fontFamily:'quicksand-bold'}}
            leftIcon={{ name: 'input', color:'#1000bf' }} 
            onPress={() => {
             this.props.navigation.navigate('LinksScreen', {

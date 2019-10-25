@@ -88,8 +88,8 @@ export default class BarcodeScanner extends React.Component {
            type='ionicon'    
            color='#666' 
            onPress={() =>this.props.navigation.goBack()} />
-           <Text style={{fontSize:20,marginTop:11,color:'#fff',fontFamily:'quicksand-bold'}}>Scan Now</Text>
-           <Text style={{color:'rgba(0,0,0,0)'}}>.</Text>
+           <Text style={{fontSize:22,marginTop:26,color:'#fff',fontFamily:'quicksand-bold'}}>Scan Now</Text>
+           <View style={{flex:1}}></View>
       </View>
 
     )
@@ -101,9 +101,9 @@ export default class BarcodeScanner extends React.Component {
         <Icon
         containerStyle={{flex:13,justifyContent:'center'}} 
         name='ios-qr-scanner'
-        size={290}
+        size={299}
         type='ionicon'    
-        color='rgba(250,250,250,0.3)' 
+        color='rgba(250,250,250,0.29)' 
         />  
       )
   }
