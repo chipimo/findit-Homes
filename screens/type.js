@@ -16,7 +16,7 @@ import { Icon } from 'react-native-elements'
 import LottieView from 'lottie-react-native';
 import { MonoText } from '../components/StyledText';
 
-export default class  LinksScreen extends React.Component { 
+export default class  typeScreen extends React.Component { 
   static navigationOptions = {
     title: 'title'
   };

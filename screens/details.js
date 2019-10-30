@@ -14,9 +14,9 @@ import {
 import { WebView } from 'react-native-webview';
 import { Icon } from 'react-native-elements'
 import LottieView from 'lottie-react-native';
-import { MonoText } from '../components/StyledText';
 
-export default class  LinksScreen extends React.Component { 
+
+export default class  DetailsScreen extends React.Component { 
   static navigationOptions = {
     title: 'title'
   };
@@ -29,6 +29,7 @@ export default class  LinksScreen extends React.Component {
       StatusBar.setHidden(true, 'none'); 
    }
 
+///WEB VIEW
   _webview=()=>{
     let link = this.props.navigation.state.params.link
     let jsCode = `
@@ -39,22 +40,48 @@ export default class  LinksScreen extends React.Component {
     <WebView
      source={{uri: link}}            
      style={{flex:9,}} 
+     ref={(ref)=>{this.webview = ref}}
      injectedJavaScript={jsCode}  
-     onLoadStart={()=>this.setState({loading:true})}
+     onNavigationStateChange={(event)=>{
+        let url = event.url
+        let home = this.props.navigation.state.params.link; 
+        if(url !== home){
+        this.webview.stopLoading()
+          ///details page
+          if(url.includes('https://findithomes.com/listing/')){
+            this.props.navigation.navigate('LinksScreen', {  
+              title: 'Details',
+              link: url,  
+            });
+          }
+          ///instance booking page
+          if(url.includes('https://findithomes.com/instance/')){
+            this.props.navigation.navigate('InstanceScreen', {  
+              title: 'Booking',
+              link: url,  
+            });
+          }
+
+        }
+        
+      }}
      onLoadEnd={()=>this.setState({loading:false})}
      scalesPageToFit={true}
    />
   )
   }
 
+  ///LOADING
   _loadingScreen=()=>{
     return(
      <View style={styles.loader} >
       <LottieView source={require('../assets/lottie/preloader.json')} autoPlay loop />
     </View>
     )
-                                               
+    
   }
+
+  ///HEADER
   _header=()=>{
     let title = this.props.navigation.state.params.title
     return(
@@ -79,7 +106,7 @@ export default class  LinksScreen extends React.Component {
 
  
 render() {
-  
+  let title = this.props.navigation.state.params.title
   return (
     <View style={{ flex: 1 }}>
       {this._header()}
@@ -114,8 +141,7 @@ const styles = StyleSheet.create({
     fontFamily:'quicksand-bold',
     fontSize: 20, 
     paddingLeft: 0,
-    paddingTop: 21,
-    
+    paddingTop: 21,   
  },
   header:{
     flex:1,

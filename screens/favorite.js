@@ -38,7 +38,7 @@ const list = [
   ]
 
 
-export default class  notificationScreen extends React.Component { 
+export default class  favoriteScreen extends React.Component { 
   static navigationOptions = {
     header: null,
   };

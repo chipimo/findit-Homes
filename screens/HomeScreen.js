@@ -25,8 +25,9 @@ export default class  HomeScreen extends React.Component {
     header: null,
   };
    state = {  
-     loading: true,
-     isVisible: false
+     loading: true, 
+     isVisible: false,
+     isVisibleHelp: false
     };
 
     componentWillMount(){
@@ -57,7 +58,132 @@ export default class  HomeScreen extends React.Component {
                    type='ionicon'   
                    color='#555' 
                    onPress={() => this.setState({ isVisible: false })} />
+                   
              </View>
+
+             
+          </View>
+          
+     </Overlay>
+     )
+   }
+
+   ///Overlay HELP
+   _overlay_help=()=>{  
+     return(
+      <Overlay
+         isVisible={this.state.isVisibleHelp}
+         onBackdropPress={() => this.setState({ isVisibleHelp: false })}
+         windowBackgroundColor="rgba(3, 3, 3, .5)"
+         overlayBackgroundColor="#fff"
+         animationType="slide"  
+         width={width-30}
+         height={height-40}
+         borderRadius={16}
+         >
+          <View style={{flex:1,padding: 5,}}> 
+           
+             <View style={{flexDirection:'row',alignContent:'space-between'}}>
+                <Text style={{fontFamily: 'quicksand-bold',fontSize:18,marginTop:10}}>HELP CENTER</Text> 
+                <Icon
+                   containerStyle={{flex:1,alignItems: 'flex-end',}} 
+                   name='ios-close'
+                   size={40}
+                   type='ionicon'   
+                   color='#555' 
+                   onPress={() => this.setState({ isVisibleHelp: false })} />    
+              </View>
+              <ScrollView style={{flex:9}}>
+                <Image 
+                  style={{width: null, height:150,resizeMode:'contain',marginBottom:14,alignContent:'center'}} 
+                  source={require('../assets/images/team.png')}
+                />
+               <View style={{flex:2}}>
+               <Text style={{fontFamily:'quicksand-regular',textAlign:'center'}}> 
+               We are dedicated to providing the most enjoyable and stress-free home search. From booking to final confirmation, we’re there for you!
+               </Text>
+                <Button
+                  title="How it Works"
+                  onPress={() => {
+                    this.setState({ isVisibleHelp: false })
+                    this.props.navigation.navigate('LinksScreen', {
+                      title: 'How it Works',
+                      link: 'https://findithomes.com/how-it-works-mobile-app',
+                    });
+                   }}
+                  buttonStyle={{
+                   backgroundColor:'#a9c500',
+                   height:40,
+                   borderRadius:50,
+                   marginTop:20
+                  }}
+                  titleStyle={{
+                   fontWeight:'500',
+                   fontFamily:'quicksand-bold', 
+                  }}
+                />
+               <Button
+                  title="Become a landlord"
+                  onPress={() => {
+                    this.setState({ isVisibleHelp: false })
+                    this.props.navigation.navigate('LinksScreen', {
+                      title: 'Become a Landlord',
+                      link: 'https://findithomes.com/become-a-landlord',
+                    });
+                   }}
+                  buttonStyle={{
+                   backgroundColor:'#a9c500',
+                   height:40,
+                   borderRadius:50,
+                   marginTop:20
+                 }}
+                 titleStyle={{
+                  fontWeight:'500',
+                  fontFamily:'quicksand-bold',  
+                }}
+               />
+               <Button
+                  title="Chat Live Now"
+                  onPress={() => {
+                    this.setState({ isVisibleHelp: false })
+                    this.props.navigation.navigate('LinksScreen', { 
+                      title: 'Live Chat',
+                      link: 'https://tawk.to/chat/5d5ce6dc77aa790be32ff654/default?$_tawk_sk=5db855fb529fac636bd17265&$_tawk_tk=1e2e584eb9b3131cd2cb296a1d730925&v=680',
+                    });
+                   }}
+                  buttonStyle={{
+                    backgroundColor:'#a9c500',
+                    height:40,
+                    borderRadius:50,
+                    marginTop:20
+                  }}
+                  titleStyle={{
+                    fontWeight:'500',
+                    fontFamily:'quicksand-bold',  
+                  }}
+                 />
+               <Button
+                  title="Community Help"
+                  onPress={() => {
+                    this.setState({ isVisibleHelp: false })
+                    this.props.navigation.navigate('LinksScreen', { 
+                      title: 'Help',
+                      link: 'https://help.findithomes.com/',
+                    });
+                   }}  
+                  buttonStyle={{
+                    backgroundColor:'#a9c500',
+                    height:40,
+                    borderRadius:50,
+                    marginTop:20
+                  }}
+                  titleStyle={{
+                    fontWeight:'500',
+                    fontFamily:'quicksand-bold',  
+                  }}
+                 />
+               </View>
+              </ScrollView>
 
              
           </View>
@@ -81,13 +207,48 @@ export default class  HomeScreen extends React.Component {
       let home = 'https://findithomes.com/mobile-app-home-page/'; 
       if(url !== home){
         this.webview.stopLoading()
+
         ///details page
         if(url.includes('https://findithomes.com/listing/')){
-          this.props.navigation.navigate('LinksScreen', {  
+          this.props.navigation.navigate('DetailsScreen', {  
             title: 'Details',
             link: url,  
           });
         }
+
+        ///compare page
+        if(url.includes('https://findithomes.com/compare/')){  
+          this.props.navigation.navigate('LinksScreen', {  
+            title: 'Compare',
+            link: url,  
+          });
+        }
+        ///map page
+        if(url.includes('https://findithomes.com/mobile-map/')){          
+          this.props.navigation.navigate('LinksScreen', {  
+            title: 'Map Search',
+            link: url,  
+          });
+        }
+        ///landlord page
+        if(url.includes('https://findithomes.com/become-a-landlord/')){    
+          this.props.navigation.navigate('LinksScreen', {  
+            title: 'Become a Landlord',
+            link: url,  
+          });
+        }
+        ///type page
+        if(url.includes('https://findithomes.com/type/')){
+          this.props.navigation.navigate('typeScreen', {  
+            title: this._type_title(url),
+            link: url,  
+          });
+        }
+        ///help popup page
+        if(url.includes('https://findithomes.com/help')){ 
+          this.setState({ isVisibleHelp: true })
+        }
+        
 
   
       }
@@ -97,6 +258,23 @@ export default class  HomeScreen extends React.Component {
      scalesPageToFit={true}
    />
   )
+  }
+
+  _type_title=(url)=>{ 
+
+    if(url.includes('house')){
+      return 'Houses'
+    } 
+    if(url.includes('apartment')){
+      return 'Apartments'
+    } 
+    if(url.includes('condo')){
+      return 'Condos'
+    } 
+    if(url.includes('cottage')){
+      return 'Cottage'
+    }
+
   }
 
   _onLoader_navigation=(event)=>{
@@ -137,7 +315,7 @@ export default class  HomeScreen extends React.Component {
               flex:5,
               width: width - 30, 
               alignSelf: 'center',
-              marginTop: 15,
+              marginTop: 10,
               margin: 4,
            }}
            titleStyle={{
@@ -150,7 +328,7 @@ export default class  HomeScreen extends React.Component {
             title="Search Now"
          />
          <Icon
-            containerStyle={{flex:1,marginTop: 17,}}
+            containerStyle={{flex:1,marginTop: 12,}}                 
             name='ios-qr-scanner'
             size={36}
             type='ionicon'   
@@ -164,10 +342,11 @@ export default class  HomeScreen extends React.Component {
   _Home_View=()=>{
     return(
       <View style={{flex:1}}>
-        {this._header()}
-        {this._webview()} 
+        
+        {this._webview()}      
         
         {this._overlay_search()} 
+        {this._overlay_help()} 
       </View>
     )
   }

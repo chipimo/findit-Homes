@@ -7,12 +7,15 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import notificationScreen from '../screens/notification'
+import favoriteScreen from '../screens/favorite'
 import inboxScreen from '../screens/inbox'
 import menuScreen from '../screens/menu'
 import LoginScreen from '../screens/LoginScreen'
 import chatScreen from '../screens/chat'
 import BarcodeScanner from '../screens/qrcode'
+import DetailsScreen from '../screens/details'
+import InstanceScreen from '../screens/instance'
+import typeScreen from '../screens/type'
 
 
 
@@ -27,11 +30,11 @@ import BarcodeScanner from '../screens/qrcode'
         ),
       }
     },
-    Notification: { 
-      screen: notificationScreen,
+    Favorite: { 
+      screen: favoriteScreen ,
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={'ios-notifications'}/>
+          <TabBarIcon focused={focused} name={'ios-heart'}/>
         ),
       }
      },
@@ -67,7 +70,10 @@ const StackNav = createStackNavigator({
   LinksScreen: LinksScreen,
   chatScreen: chatScreen,
   LoginScreen: LoginScreen, 
-  BarcodeScanner: BarcodeScanner,  
+  BarcodeScanner: BarcodeScanner,
+  DetailsScreen:DetailsScreen, 
+  InstanceScreen: InstanceScreen, 
+  typeScreen:typeScreen,
   
 },{
   defaultNavigationOptions:{

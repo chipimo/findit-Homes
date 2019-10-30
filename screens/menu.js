@@ -142,6 +142,19 @@ render() {
           bottomDivider
           chevron
         />
+       <ListItem
+          title="live Chat"
+          titleStyle={{fontFamily:'quicksand-bold'}}
+          leftIcon={{ name: 'help' ,color:'#6600bf'}} 
+          onPress={() => {
+            this.props.navigation.navigate('LinksScreen', {
+              title: 'live Chat',
+              link: 'https://tawk.to/chat/5d5ce6dc77aa790be32ff654/default?$_tawk_sk=5db855fb529fac636bd17265&$_tawk_tk=1e2e584eb9b3131cd2cb296a1d730925&v=680',
+            });
+           }}    
+          bottomDivider
+          chevron
+        />
        <Divider style={{marginTop:40,}}/>
 
        <ListItem
