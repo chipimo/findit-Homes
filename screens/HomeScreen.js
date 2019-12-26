@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
+  ImageBackground,
   ActivityIndicator,
   Dimensions
 } from 'react-native'
@@ -26,44 +27,135 @@ export default class  HomeScreen extends React.Component {
   };
    state = {  
      loading: true, 
-     isVisible: false,
+     isVisible: false, 
      isVisibleHelp: false
     };
 
     componentWillMount(){
       StatusBar.setHidden(true, 'none'); 
+      setTimeout(() => {
+        this.setState({ isVisible: true })
+      }, 7000);
    }
 
-   ///Overlay on search
-   _overlay_search=()=>{
+   ///OVERLAY WELCOME TAB
+   _overlay_welcome=()=>{
      return(
       <Overlay
          isVisible={this.state.isVisible}
          onBackdropPress={() => this.setState({ isVisible: false })}
-         windowBackgroundColor="rgba(3, 3, 3, .5)"
-         overlayBackgroundColor="#fff"
-         animationType="slide"  
+         windowBackgroundColor="rgba(3, 3, 3, .5)" 
+         overlayBackgroundColor="#fff" 
+         animationType="slide"
+         overlayStyle={{padding:0,margin:0,overflow:'hidden'}}    
          width={width-30}
          height={height-40}
          borderRadius={16}
          >
-          <View style={{flex:1,padding: 5,}}> 
+         <ImageBackground source={require('../assets/images/background-welcome.jpg')} style={{width: '100%', height: '100%',}}>
+          <View style={{flex:3,padding:20}}> 
            
              <View style={{flexDirection:'row',alignContent:'space-between'}}>
-                <Text style={{fontFamily: 'quicksand-bold',fontSize:18,marginTop:10}}>Search</Text> 
+                <Text style={{fontFamily: 'quicksand-bold',fontSize:18,marginTop:10}}></Text> 
                 <Icon
                    containerStyle={{flex:1,alignItems: 'flex-end',}} 
                    name='ios-close'
-                   size={40}
-                   type='ionicon'   
-                   color='#555' 
-                   onPress={() => this.setState({ isVisible: false })} />
+                   size={40} 
+                   type='ionicon'    
+                   color='#fff' 
+                   onPress={() => this.setState({ isVisible: false })} /> 
                    
              </View>
 
-             
           </View>
-          
+                <Button
+                  title="Get Started"
+                  onPress={() => {
+                    this.setState({ isVisibleHelp: false })
+                    this.props.navigation.navigate('LinksScreen', {
+                      title: 'Become a Landlord',
+                      link: 'https://findithomes.com/become-a-landlord',
+                    });
+                   }}
+                  buttonStyle={{
+                   backgroundColor:'#a9c500',
+                   height:40,
+                   width: width-70,
+                   alignSelf:'center',
+                   borderRadius:50,
+                  
+                 }}
+                 containerStyle={{   
+                     flex:1,
+                     marginTop:40 
+                 }}
+                 titleStyle={{
+                  fontWeight:'500',
+                  fontFamily:'quicksand-bold',  
+                }}
+               />
+        </ImageBackground>
+     </Overlay>
+     )
+   }
+
+   ///OVERLAY PROMOTION TAB
+   _overlay_promotion=()=>{
+     return(
+      <Overlay
+         isVisible={this.state.isVisiblePromo}
+         onBackdropPress={() => this.setState({ isVisiblePromo: false })}
+         windowBackgroundColor="rgba(3, 3, 3, .5)" 
+         overlayBackgroundColor="#fff" 
+         animationType="slide"
+         overlayStyle={{padding:0,margin:0,overflow:'hidden'}}    
+         width={width-30}
+         height={height-40}
+         borderRadius={16}
+         >
+         <ImageBackground source={require('../assets/images/background-welcome.jpg')} style={{width: '100%', height: '100%',}}>
+          <View style={{flex:3,padding:20}}> 
+           
+             <View style={{flexDirection:'row',alignContent:'space-between'}}>
+                <Text style={{fontFamily: 'quicksand-bold',fontSize:18,marginTop:10}}></Text> 
+                <Icon
+                   containerStyle={{flex:1,alignItems: 'flex-end',}} 
+                   name='ios-close'
+                   size={40} 
+                   type='ionicon'    
+                   color='#fff' 
+                   onPress={() => this.setState({ isVisiblePromo: false })} /> 
+                   
+             </View>
+
+          </View>
+                <Button
+                  title="Get Started"
+                  onPress={() => {
+                    this.setState({ isVisiblePromo: false })
+                    this.props.navigation.navigate('LinksScreen', {
+                      title: 'Become a Landlord',
+                      link: 'https://findithomes.com/become-a-landlord',
+                    });
+                   }}
+                  buttonStyle={{
+                   backgroundColor:'#a9c500',
+                   height:40,
+                   width: width-70,
+                   alignSelf:'center',
+                   borderRadius:50,
+                  
+                 }}
+                 containerStyle={{   
+                     flex:1,
+                     marginTop:40 
+                 }}
+                 titleStyle={{
+                  fontWeight:'500',
+                  fontFamily:'quicksand-bold',  
+                }}
+               />
+        </ImageBackground>
      </Overlay>
      )
    }
@@ -245,8 +337,12 @@ export default class  HomeScreen extends React.Component {
           });
         }
         ///help popup page
-        if(url.includes('https://findithomes.com/help')){ 
+        if(url.includes('https://findithomes.com/help')){   
           this.setState({ isVisibleHelp: true })
+        }
+        ///QRCODE PAGE 
+        if(url.includes('https://findithomes.com/qrcode')){    
+          this.props.navigation.navigate('BarcodeScanner')
         }
         
 
@@ -345,7 +441,7 @@ export default class  HomeScreen extends React.Component {
         
         {this._webview()}      
         
-        {this._overlay_search()} 
+        {this._overlay_welcome()} 
         {this._overlay_help()} 
       </View>
     )
@@ -361,11 +457,11 @@ export default class  HomeScreen extends React.Component {
   }
 
  
-render() {
+render() { 
   return (
-    <View style={{ flex: 1 }}>  
+    <View style={{ flex: 1 }}>      
       {this._Home_View()}
-      {this.state.loading? this._loadingScreen() : null}
+      {this.state.loading? this._loadingScreen() : null}   
     </View>                                                                                                                                   
   );
  }
@@ -381,11 +477,12 @@ const styles = StyleSheet.create({
   loader:{
     flex:1, 
     position:'absolute',
-    top:60,
+    top:0,  
     bottom:0,
     left:0,
     right:0,
-    backgroundColor:'#fff'
+    backgroundColor:'#fff'  
+    
   },
   
 });
