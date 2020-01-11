@@ -37,7 +37,7 @@ export default class BarcodeScanner extends React.Component {
       } = this.state;
   
       if (hasCameraPermission === null) {
-        return <Text > Requesting
+        return <Text style={{flex:1, justifyContent:'center'}}> Requesting
         for camera permission </Text>;
       }
       if (hasCameraPermission === false) {
@@ -52,7 +52,7 @@ export default class BarcodeScanner extends React.Component {
           scanned ? undefined : this.handleBarCodeScanned
         }
         style = {
-          StyleSheet.absoluteFillObject
+          {flex:1}
         }
         />
         {this._cross_back()}
@@ -121,6 +121,15 @@ export default class BarcodeScanner extends React.Component {
             title: 'Details',
             link: data,  
           });
+    }
+    if(data.includes('@finditpromo')){
+      Vibration.vibrate()
+      let id = data.split
+      let link = "https://findithomes.com/?id="+id
+      this.props.navigation.navigate('promoScreen', {  
+        title: 'Special to You',
+        data: data,  
+      });
     }else{
         alert(`This QR Code (${data}) is not Findit Homes QR Code. Please Scan On a Findit Homes Qr Code to Book!`);
     }

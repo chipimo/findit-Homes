@@ -293,62 +293,69 @@ export default class  HomeScreen extends React.Component {
      source={{uri: 'https://findithomes.com/mobile-app-home-page/'}}            
      style={{flex:10,}} 
      ref={(ref)=>{this.webview = ref}}
-     injectedJavaScript={jsCode}  
-     onNavigationStateChange={(event)=>{
+     injectedJavaScript={jsCode}
+     onShouldStartLoadWithRequest={(event) => { 
       let url = event.url
       let home = 'https://findithomes.com/mobile-app-home-page/'; 
-      if(url !== home){
-        this.webview.stopLoading()
-
-        ///details page
-        if(url.includes('https://findithomes.com/listing/')){
-          this.props.navigation.navigate('DetailsScreen', {  
-            title: 'Details',
-            link: url,  
-          });
-        }
-
-        ///compare page
-        if(url.includes('https://findithomes.com/compare/')){  
-          this.props.navigation.navigate('LinksScreen', {  
-            title: 'Compare',
-            link: url,  
-          });
-        }
-        ///map page
-        if(url.includes('https://findithomes.com/mobile-map/')){          
-          this.props.navigation.navigate('LinksScreen', {  
-            title: 'Map Search',
-            link: url,  
-          });
-        }
-        ///landlord page
-        if(url.includes('https://findithomes.com/become-a-landlord/')){    
-          this.props.navigation.navigate('LinksScreen', {  
-            title: 'Become a Landlord',
-            link: url,  
-          });
-        }
-        ///type page
-        if(url.includes('https://findithomes.com/type/')){
-          this.props.navigation.navigate('typeScreen', {  
-            title: this._type_title(url),
-            link: url,  
-          });
-        }
-        ///help popup page
-        if(url.includes('https://findithomes.com/help')){   
-          this.setState({ isVisibleHelp: true })
-        }
-        ///QRCODE PAGE 
-        if(url.includes('https://findithomes.com/qrcode')){    
-          this.props.navigation.navigate('BarcodeScanner')
-        }
-        
-
-  
+      if (event.url.includes("https://findithomes.com/")) {
+         ////Stoping load
+          this.webview.stopLoading() 
+          if(url !== home){
+            this.webview.stopLoading()
+    
+            ///details page
+            if(url.includes('https://findithomes.com/listing/')){
+              this.props.navigation.navigate('DetailsScreen', {  
+                title: 'Details',
+                link: url,  
+              });
+            }
+    
+            ///compare page
+            if(url.includes('https://findithomes.com/compare/')){  
+              this.props.navigation.navigate('LinksScreen', {  
+                title: 'Compare',
+                link: url,  
+              });
+            }
+            ///map page
+            if(url.includes('https://findithomes.com/mobile-map/')){          
+              this.props.navigation.navigate('LinksScreen', {  
+                title: 'Map Search',
+                link: url,  
+              });
+            }
+            ///landlord page
+            if(url.includes('https://findithomes.com/become-a-landlord/')){    
+              this.props.navigation.navigate('LinksScreen', {  
+                title: 'Become a Landlord',
+                link: url,  
+              });
+            }
+            ///type page
+            if(url.includes('https://findithomes.com/type/')){
+              this.props.navigation.navigate('typeScreen', {  
+                title: this._type_title(url),
+                link: url,  
+              });
+            }
+            ///help popup page
+            if(url.includes('https://findithomes.com/help')){   
+              this.setState({ isVisibleHelp: true })
+            }
+            ///QRCODE PAGE 
+            if(url.includes('https://findithomes.com/qrcode')){    
+              this.props.navigation.navigate('BarcodeScanner')
+            }
+            
+    
+      
+          }
+          
+          return false
       }
-    }}
+      return true
+     }}  
      
      onLoadEnd={()=>this.setState({loading:false})}
      scalesPageToFit={true}
