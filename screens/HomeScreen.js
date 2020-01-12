@@ -11,8 +11,10 @@ import {
   StatusBar,
   ImageBackground,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  NetInfo
 } from 'react-native'
+import { Snackbar } from 'react-native-paper';  
 import { WebView } from 'react-native-webview';
 import { Button,Icon,Overlay } from 'react-native-elements';
 import LottieView from 'lottie-react-native';
@@ -28,7 +30,12 @@ export default class  HomeScreen extends React.Component {
    state = {  
      loading: true, 
      isVisible: false, 
-     isVisibleHelp: false
+     isVisibleHelp: false,
+     isConnected: true,
+     SnackbarColor: "#788c00",
+     SnackText: "",
+     SnackbarVisible: false,
+     snackbarDuration: 5000
     };
 
     componentWillMount(){
@@ -36,7 +43,31 @@ export default class  HomeScreen extends React.Component {
       setTimeout(() => {
         this.setState({ isVisible: true })
       }, 7000);
+
    }
+
+   componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+  }
+
+  handleConnectivityChange = isConnected => {  
+    this.setState({ isConnected });
+    isConnected? this.setState({ 
+      SnackbarColor: "#59af15",
+      SnackText: "You are Back Online",  
+      SnackbarVisible: true,
+      snackbarDuration: 5000
+    }): this.setState({ 
+      SnackbarColor: "#ef333f",
+      SnackText: "No Internet.Please Check your internet!",
+      SnackbarVisible: true,
+      snackbarDuration: 30000
+    })
+  };
 
    ///OVERLAY WELCOME TAB
    _overlay_welcome=()=>{
@@ -299,10 +330,21 @@ export default class  HomeScreen extends React.Component {
       let home = 'https://findithomes.com/mobile-app-home-page/'; 
       if (event.url.includes("https://findithomes.com/")) {
          ////Stoping load
-          this.webview.stopLoading() 
-          if(url !== home){
-            this.webview.stopLoading()
-    
+          
+          if(url !== home){ 
+            this.webview.stopLoading() 
+            ///Check internet Connection
+            if(!this.state.isConnected){
+              if (url.includes("https://findithomes.com/")){
+                 this.setState({ 
+                   SnackbarColor: "#ef333f",
+                   SnackText: "You are Offline.Please Check your internet!",
+                   SnackbarVisible: true,
+                   snackbarDuration: 30000
+                })
+              }
+            }else{
+
             ///details page
             if(url.includes('https://findithomes.com/listing/')){
               this.props.navigation.navigate('DetailsScreen', {  
@@ -347,20 +389,44 @@ export default class  HomeScreen extends React.Component {
             if(url.includes('https://findithomes.com/qrcode')){    
               this.props.navigation.navigate('BarcodeScanner')
             }
+
             
-    
-      
           }
           
-          return false
+          }
+          ////return false on android
+          if(Platform.OS === 'ios'){
+
+          }else{
+            return false
+          }         
+         
       }
       return true
      }}  
      
      onLoadEnd={()=>this.setState({loading:false})}
      scalesPageToFit={true}
-   />
+  />
+  
   )
+  }
+
+
+  ///Snaker bar
+  InternetChecker=()=>{
+
+    return(
+      <Snackbar
+       visible={this.state.SnackbarVisible} 
+       duration={this.state.snackbarDuration}
+       style={{backgroundColor:this.state.SnackbarColor,borderRadius:20}}
+       onDismiss={() => this.setState({ SnackbarVisible: false })} 
+     >
+      {this.state.SnackText}
+    </Snackbar>
+    )
+
   }
 
   _type_title=(url)=>{ 
@@ -379,6 +445,8 @@ export default class  HomeScreen extends React.Component {
     }
 
   }
+
+
 
   _onLoader_navigation=(event)=>{
     let url = event.url
@@ -447,7 +515,7 @@ export default class  HomeScreen extends React.Component {
       <View style={{flex:1}}>
         
         {this._webview()}      
-        
+        {this.InternetChecker()}
         {this._overlay_welcome()} 
         {this._overlay_help()} 
       </View>

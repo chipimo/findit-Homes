@@ -3,12 +3,16 @@ import {
   Text,
   View,
   StyleSheet,
-  Vibration
+  Vibration,
+  Dimensions
 } from 'react-native';
 import { Button,Icon } from 'react-native-elements';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import {BarCodeScanner} from 'expo-barcode-scanner';  
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 
 export default class BarcodeScanner extends React.Component {
@@ -41,7 +45,7 @@ export default class BarcodeScanner extends React.Component {
         for camera permission </Text>;
       }
       if (hasCameraPermission === false) {
-        return <Text> No access to camera </Text>;
+        return <Text> No access to camera </Text>; 
       }
       return ( <View style = {{
             flex: 1,
@@ -51,9 +55,7 @@ export default class BarcodeScanner extends React.Component {
         <BarCodeScanner onBarCodeScanned = {
           scanned ? undefined : this.handleBarCodeScanned
         }
-        style = {
-          {flex:1}
-        }
+        style={[StyleSheet.absoluteFillObject,{width:width,  height:height}]} 
         />
         {this._cross_back()}
         {this._scanner()}
@@ -122,13 +124,13 @@ export default class BarcodeScanner extends React.Component {
             link: data,  
           });
     }
-    if(data.includes('@finditpromo')){
+    if(data.includes('finditpromo')){
       Vibration.vibrate()
       let id = data.split
       let link = "https://findithomes.com/?id="+id
-      this.props.navigation.navigate('promoScreen', {  
+      this.props.navigation.navigate('LinksScreen', {  
         title: 'Special to You',
-        data: data,  
+        link: data,  
       });
     }else{
         alert(`This QR Code (${data}) is not Findit Homes QR Code. Please Scan On a Findit Homes Qr Code to Book!`);
